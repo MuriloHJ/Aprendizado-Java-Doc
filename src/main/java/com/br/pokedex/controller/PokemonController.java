@@ -1,6 +1,7 @@
 package com.br.pokedex.controller;
 
 import com.br.pokedex.entity.PokemonEntity;
+import com.br.pokedex.entity.enums.Type;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -29,46 +30,10 @@ public class PokemonController
         return pokedex.size() + 1;
     }
 
-
     public PokemonController()
     {
-        pokedex.add(new PokemonEntity(
-                newId(),
-                "Pikachu",
-                "Pokemon rato elétrico",
-                16,
-                20,
-                53,
-                true,
-                PokemonEntity.Type.ELECTRIC,
-                1
-        ));
 
-        pokedex.add(new PokemonEntity(
-                newId(),
-                "Bulbasaur",
-                "Pokemon bulbo",
-                20,
-                48,
-                48,
-                false,
-                PokemonEntity.Type.GRASS,
-                1
-        ));
-
-        pokedex.add(new PokemonEntity(
-                newId(),
-                "Rayquaza",
-                "Pokemon serpente voadora",
-                67,
-                50,
-                120,
-                true,
-                PokemonEntity.Type.DRAGON,
-                1
-        ));
     }
-
 
     /**
      * Lista pokemons da pokedex
@@ -302,7 +267,7 @@ public class PokemonController
     })
     @GetMapping("/tipo")
     public ResponseEntity<PokemonEntity> findByType(
-            @RequestParam PokemonEntity.Type type)
+            @RequestParam Type type)
     {
         Optional<PokemonEntity> pokemonEncontrado =
                 pokedex.stream()
@@ -413,7 +378,7 @@ public class PokemonController
      */
 
     @Operation(
-            summary = "Atulizar level ",
+            summary = "Atualizar level ",
             description = "Atualiza o level pelo seu id  e level informado"
     )
     @ApiResponses({

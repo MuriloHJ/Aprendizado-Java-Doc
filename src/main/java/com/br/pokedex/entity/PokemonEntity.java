@@ -1,61 +1,62 @@
 package com.br.pokedex.entity;
+import com.br.pokedex.entity.enums.Type;
+
+import java.util.Optional;
 
 public class PokemonEntity
 {
     private Integer id;
     private String name;
     private String description;
+    private State state;
     private int level;
     private int actualPs;
     private int maxPs;
     private boolean shiny;
     private Type type;
     private int stage;
+    private boolean needStone;
 
 
-    public PokemonEntity(Integer id, String name, String description, int level, int actualPs, int maxPs, boolean shiny, Type type, int stage) {
+    public PokemonEntity(Integer id, String name, String description,State state, int level, int actualPs, int maxPs, boolean shiny, Type type, int stage, boolean needStone) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.state = state;
         this.level = level;
         this.actualPs = actualPs;
         this.maxPs = maxPs;
         this.shiny = shiny;
         this.type = type;
         this.stage = stage;
+        this.needStone = needStone;
     }
 
-    public PokemonEntity(String name, String description, int level, int actualPs, int maxPs, boolean shiny, Type type, int stage) {
+    public PokemonEntity(String name, String description, int level,State state, int actualPs, int maxPs, boolean shiny, Type type, int stage, boolean needStone) {
         this.name = name;
         this.description = description;
         this.level = level;
+        this.state = state;
         this.actualPs = actualPs;
         this.maxPs = maxPs;
         this.shiny = shiny;
         this.type = type;
         this.stage = stage;
+        this.needStone = needStone;
     }
 
-    public enum Type{
-        FIRE,
-        WATER,
-        GRASS,
-        ELECTRIC,
-        GROUND,
-        ROCK,
-        FLYING,
-        BUG,
-        FIGHTING,
-        PSYCHIC,
-        GHOST,
-        FAIRY,
-        DARK,
-        DRAGON,
-        ICE,
-        METAL,
-        POISON,
-        NORMAL
+    public enum State
+    {
+        PARALISADO,
+        QUEIMADO,
+        ENVENENADO,
+        SONO,
+        CONGELADO,
+        CONFUSO,
+        NORMAL,
+        DESMAIADO
     }
+
 
     public int getActualPs() {
         return actualPs;
@@ -87,6 +88,14 @@ public class PokemonEntity
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
     public int getLevel() {
@@ -127,5 +136,37 @@ public class PokemonEntity
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public boolean isNeedStone() {
+        return needStone;
+    }
+
+    public void setNeedStone(boolean needStone) {
+        this.needStone = needStone;
+    }
+
+    public void movimentar()
+    {
+        System.out.println("Pokemon "+this.name+" está se movimentando");
+    }
+
+    public void esquivar(String namePokemon)
+    {
+        System.out.println("Pokemon "+this.name+" se esquivou do ataque de "+namePokemon);
+    }
+
+    public void atacar(PokemonEntity pokemon)
+    {
+        System.out.println("Pokemon "+this.name+" atacou o "+pokemon.getName());
+    }
+
+    public void usarItem(ItensObject item)
+    {
+        if(item.getNameItem().getTypeItem1().name() == "CURA" || item.getNameItem().getTypeItem1().name() == "ANTIEFFECT" )
+        {
+            setState(State.NORMAL);
+        }
+
     }
 }
