@@ -8,10 +8,7 @@ import java.util.List;
 
 public class ArenaService implements com.br.pokedex.interfaces.ArenaService
 {
-    public ArenaService()
-    {
 
-    }
 
     @Override
     public void entregarIsignia()

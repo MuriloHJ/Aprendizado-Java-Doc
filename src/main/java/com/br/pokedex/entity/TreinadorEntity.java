@@ -54,4 +54,13 @@ public class TreinadorEntity
         this.itens = itens;
     }
 
+    public void andar()
+    {
+        System.out.println("Andando");
+    }
+
+    public TreinadorEntity verificarTreinador(TreinadorEntity treinador)
+    {
+        return treinador;
+    }
 }

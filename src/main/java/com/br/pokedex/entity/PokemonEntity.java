@@ -1,5 +1,6 @@
 package com.br.pokedex.entity;
 import com.br.pokedex.entity.enums.Type;
+import com.br.pokedex.excpetions.InvalidInputExcpetion;
 
 import java.util.Optional;
 
@@ -15,10 +16,8 @@ public class PokemonEntity
     private boolean shiny;
     private Type type;
     private int stage;
-    private boolean needStone;
 
-
-    public PokemonEntity(Integer id, String name, String description,State state, int level, int actualPs, int maxPs, boolean shiny, Type type, int stage, boolean needStone) {
+    public PokemonEntity(Integer id, String name, String description,State state, int level, int actualPs, int maxPs, boolean shiny, Type type, int stage) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -29,10 +28,9 @@ public class PokemonEntity
         this.shiny = shiny;
         this.type = type;
         this.stage = stage;
-        this.needStone = needStone;
     }
 
-    public PokemonEntity(String name, String description, int level,State state, int actualPs, int maxPs, boolean shiny, Type type, int stage, boolean needStone) {
+    public PokemonEntity(String name, String description, int level,State state, int actualPs, int maxPs, boolean shiny, Type type, int stage) {
         this.name = name;
         this.description = description;
         this.level = level;
@@ -42,7 +40,6 @@ public class PokemonEntity
         this.shiny = shiny;
         this.type = type;
         this.stage = stage;
-        this.needStone = needStone;
     }
 
     public enum State
@@ -138,13 +135,6 @@ public class PokemonEntity
         this.type = type;
     }
 
-    public boolean isNeedStone() {
-        return needStone;
-    }
-
-    public void setNeedStone(boolean needStone) {
-        this.needStone = needStone;
-    }
 
     public void movimentar()
     {
@@ -168,5 +158,31 @@ public class PokemonEntity
             setState(State.NORMAL);
         }
 
+
+        else if(item.getNameItem().getTypeItem1().name() == "EVOLUCAO")
+        {
+
+        }
+
+        else if(item.getNameItem().getTypeItem1().name() == "CAPTURA")
+        {
+
+        }
+    }
+
+    public PokemonEntity validarPokemon(PokemonEntity pokemon)
+    {
+
+        if(pokemon.getStage() < 1 || pokemon.getStage() > 3)
+        {
+            throw new InvalidInputExcpetion("Erro!!!! Estágio de pokemon inválido!!!!");
+        }
+
+        if(pokemon.getActualPs() > pokemon.getMaxPs())
+        {
+            throw new InvalidInputExcpetion("Erro!!!! A vida atual não pode ser maior que a vida máxima!!!!");
+        }
+
+        return pokemon;
     }
 }

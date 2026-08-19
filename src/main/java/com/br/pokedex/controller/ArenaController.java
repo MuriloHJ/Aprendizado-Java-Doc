@@ -1,14 +1,11 @@
 package com.br.pokedex.controller;
 
 import com.br.pokedex.entity.PokemonEntity;
-import com.br.pokedex.entity.TreinadorEntity;
 import com.br.pokedex.entity.enums.Type;
-import com.br.pokedex.service.PokemonService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,22 +14,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-@Tag(
-        name = "Rotas de controle da Pokedex",
-        description = "Endpoints de funcionamento da Pokedex"
-)
-@RestController
-@RequestMapping("v1/pokemons")
-public class PokemonController
+public class ArenaController
 {
     private static List<PokemonEntity> pokedex = new CopyOnWriteArrayList<>();
+
     private static Integer newId()
     {
         return pokedex.size() + 1;
     }
-    private final PokemonService pokemonService = new PokemonService();
 
+    public PokemonController()
+    {
 
+    }
 
     /**
      * Lista pokemons da pokedex
@@ -436,7 +430,7 @@ public class PokemonController
                     description = "Pokemon não foi encontrado"
             )
     })
-    @PatchMapping("/{id}/curar")
+    @PostMapping("/{id}/curar")
     public ResponseEntity<PokemonEntity> healPokemon(
             @PathVariable Integer id)
     {
@@ -481,8 +475,8 @@ public class PokemonController
                     description = "Pokemon não foi encontrado"
             )
     })
-    @PatchMapping("/{id}/aumentar-nivel")
-    public ResponseEntity<PokemonEntity> aumentarNivelPokemon(
+    @PostMapping("/{id}/evoluir")
+    public ResponseEntity<PokemonEntity> evolvePokemon(
             @PathVariable Integer id)
     {
         Optional<PokemonEntity> pokemonEncontrado =
@@ -543,21 +537,4 @@ public class PokemonController
 
         return ResponseEntity.ok(pokemonEncontrado.get());
     }
-
-    @PatchMapping("/Evoluir/{id}")
-    public ResponseEntity<PokemonEntity> evoluirPokemon(@PathVariable String id,@RequestBody PokemonEntity pokemon)
-    {
-        Optional<PokemonEntity> pokemonEncontrado =
-                pokedex.stream().
-                        filter(Pokemon -> Pokemon.getId().equals(id)).
-                        findFirst();
-
-        if (pokemonEncontrado.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-
-         pokemonService.evoluir(pokemonEncontrado);
-
-    }
-
 }

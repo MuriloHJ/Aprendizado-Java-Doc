@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface PokemonService
 {
-    String mudarEstado(ItensObject item, PokemonEntity pokemon);
-    String evoluir(PokemonEntity pokemon,Optional<ItensObject> item);
+    String mudarEstado(Optional<ItensObject> item, Optional<PokemonEntity> pokemon);
+    String evoluir(Optional<PokemonEntity> pokemon);
 }
