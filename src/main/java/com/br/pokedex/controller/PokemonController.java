@@ -1,7 +1,6 @@
 package com.br.pokedex.controller;
 
 import com.br.pokedex.entity.PokemonEntity;
-import com.br.pokedex.entity.TreinadorEntity;
 import com.br.pokedex.entity.enums.Type;
 import com.br.pokedex.service.PokemonService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,6 +22,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 )
 @RestController
 @RequestMapping("v1/pokemons")
+
 public class PokemonController
 {
     private static List<PokemonEntity> pokedex = new CopyOnWriteArrayList<>();
@@ -30,9 +30,6 @@ public class PokemonController
     {
         return pokedex.size() + 1;
     }
-    private final PokemonService pokemonService = new PokemonService();
-
-
 
     /**
      * Lista pokemons da pokedex
@@ -543,21 +540,4 @@ public class PokemonController
 
         return ResponseEntity.ok(pokemonEncontrado.get());
     }
-
-    @PatchMapping("/Evoluir/{id}")
-    public ResponseEntity<PokemonEntity> evoluirPokemon(@PathVariable String id,@RequestBody PokemonEntity pokemon)
-    {
-        Optional<PokemonEntity> pokemonEncontrado =
-                pokedex.stream().
-                        filter(Pokemon -> Pokemon.getId().equals(id)).
-                        findFirst();
-
-        if (pokemonEncontrado.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-
-         pokemonService.evoluir(pokemonEncontrado);
-
-    }
-
 }

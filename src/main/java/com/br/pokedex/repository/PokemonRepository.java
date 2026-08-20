@@ -1,4 +1,4 @@
 package com.br.pokedex.repository;
 
-public class PokemonRepository {
+public class PokemonRepository{
 }

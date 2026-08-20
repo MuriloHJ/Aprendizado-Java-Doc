@@ -1,11 +1,15 @@
 package com.br.pokedex.entity;
 import com.br.pokedex.entity.enums.Type;
 import com.br.pokedex.excpetions.InvalidInputExcpetion;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
-import java.util.Optional;
+import java.util.Random;
 
+@Entity
 public class PokemonEntity
 {
+    @Id
     private Integer id;
     private String name;
     private String description;
@@ -41,6 +45,11 @@ public class PokemonEntity
         this.type = type;
         this.stage = stage;
     }
+
+    public PokemonEntity() {
+
+    }
+
 
     public enum State
     {
@@ -136,38 +145,113 @@ public class PokemonEntity
     }
 
 
+
     public void movimentar()
     {
-        System.out.println("Pokemon "+this.name+" está se movimentando");
+        System.out.println("O pokemon andou.");
     }
 
-    public void esquivar(String namePokemon)
+
+    public boolean esquivar(String namePokemon)
     {
-        System.out.println("Pokemon "+this.name+" se esquivou do ataque de "+namePokemon);
+        if(this.state == State.DESMAIADO)
+        {
+            System.out.println("Pokemon "+this.name+" está desmaiado e não pode esquivar!");
+            return false;
+        }
+
+        Random random = new Random();
+        boolean conseguiuEsquivar = random.nextBoolean();
+
+        if(conseguiuEsquivar)
+        {
+            System.out.println("Pokemon "+this.name+" se esquivou do ataque de "+namePokemon+"!");
+        }
+        else
+        {
+            System.out.println("Pokemon "+this.name+" tentou esquivar do ataque de "+namePokemon+", mas não conseguiu!");
+        }
+
+        return conseguiuEsquivar;
     }
 
     public void atacar(PokemonEntity pokemon)
     {
-        System.out.println("Pokemon "+this.name+" atacou o "+pokemon.getName());
+        if(this.state == State.DESMAIADO)
+        {
+            System.out.println("Pokemon "+this.name+" está desmaiado e não pode atacar!");
+            return;
+        }
+
+        Random random = new Random();
+        int dano = (this.level * 2) + random.nextInt(10);
+
+        System.out.println("Pokemon "+this.name+" atacou o "+pokemon.getName()+" causando "+dano+" de dano!");
+
+        int psRestante = pokemon.getActualPs() - dano;
+        pokemon.setActualPs(Math.max(psRestante, 0));
+
+        pokemon.reagirDesmaio();
+    }
+
+    public void reagirDesmaio()
+    {
+        if(this.actualPs <= 0)
+        {
+            this.actualPs = 0;
+            setState(State.DESMAIADO);
+            System.out.println("Pokemon "+this.name+" desmaiou!");
+        }
+    }
+
+    public boolean fugir()
+    {
+        Random random = new Random();
+        boolean conseguiuFugir = random.nextBoolean();
+
+        if(conseguiuFugir)
+        {
+            System.out.println("Pokemon "+this.name+" fugiu da batalha!");
+        }
+        else
+        {
+            System.out.println("Pokemon "+this.name+" tentou fugir, mas não conseguiu!");
+        }
+
+        return conseguiuFugir;
+    }
+
+    public void subirNivel()
+    {
+        this.level = this.level + 1;
+
+        int incrementoPs = 5;
+        this.maxPs = this.maxPs + incrementoPs;
+        this.actualPs = this.actualPs + incrementoPs;
+
+        System.out.println("Pokemon "+this.name+" subiu para o nível "+this.level+"!");
     }
 
     public void usarItem(ItensObject item)
     {
-        if(item.getNameItem().getTypeItem1().name() == "CURA" || item.getNameItem().getTypeItem1().name() == "ANTIEFFECT" )
+        if(item.getNameItem().getTypeItem1().equals(com.br.pokedex.entity.enums.TypeItem.CURA)
+                || (item.getNameItem().getTypeItem2() != null && item.getNameItem().getTypeItem2().equals(com.br.pokedex.entity.enums.TypeItem.CURA)))
+        {
+            setActualPs(getMaxPs());
+        }
+
+        if(item.getNameItem().getTypeItem1().equals(com.br.pokedex.entity.enums.TypeItem.ANTIEFFECT)
+                || (item.getNameItem().getTypeItem2() != null && item.getNameItem().getTypeItem2().equals(com.br.pokedex.entity.enums.TypeItem.ANTIEFFECT)))
         {
             setState(State.NORMAL);
         }
 
-
-        else if(item.getNameItem().getTypeItem1().name() == "EVOLUCAO")
+        if(item.getNameItem().getTypeItem1().equals(com.br.pokedex.entity.enums.TypeItem.CAPTURA))
         {
-
+            System.out.println("Pokebola usada!");
         }
 
-        else if(item.getNameItem().getTypeItem1().name() == "CAPTURA")
-        {
-
-        }
+        System.out.println("Item "+item.getNameItem().name()+" usado em "+this.name+"!");
     }
 
     public PokemonEntity validarPokemon(PokemonEntity pokemon)

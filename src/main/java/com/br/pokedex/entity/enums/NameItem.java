@@ -2,8 +2,8 @@ package com.br.pokedex.entity.enums;
 
 public enum NameItem
 {
-    POCAO(TypeItem.CURA,TypeItem.ANTIEFECT),
-    FRUTA(TypeItem.CURA,TypeItem.ANTIEFECT),
+    POCAO(TypeItem.CURA,TypeItem.ANTIEFFECT),
+    FRUTA(TypeItem.CURA,TypeItem.ANTIEFFECT),
     POKEBOLA(TypeItem.CAPTURA),
     PEDRAEVO(TypeItem.EVOLUCAO);
 

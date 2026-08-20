@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@Tag(
+        name = "Controller de Treinador",
+        description = "Endpoints de funcionamento do treinador"
+)
+@RestController
+@RequestMapping("v1/treinador")
 public class TreinadorController
 {
     private final TreinadorService treinadorService = new TreinadorService();
@@ -168,7 +175,7 @@ public class TreinadorController
             )
     })
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id}/name")
     public ResponseEntity<TreinadorEntity> updateName(
             @Parameter(
                     description = "Identificador para atualizar",
@@ -195,7 +202,7 @@ public class TreinadorController
      * <p>Altera somente o nivel do pokemon através do id informado</p>
      *
      * @param id identificador do pokemon
-     * @param level novo nivel do pokemon
+     * @param treinador novo nivel do pokemon
      * @return pokemon com o nivel atualizado
      */
 
@@ -249,7 +256,7 @@ public class TreinadorController
             )
     })
     @PostMapping("/{id}/curar")
-    public ResponseEntity<PokemonEntity> healPokemon(
+    public ResponseEntity<PokemonEntity> useItem(
             @PathVariable Integer id)
     {
         Optional<PokemonEntity> pokemonEncontrado =

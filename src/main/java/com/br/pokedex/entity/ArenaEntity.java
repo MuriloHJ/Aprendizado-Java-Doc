@@ -2,15 +2,20 @@ package com.br.pokedex.entity;
 
 import com.br.pokedex.entity.enums.Lider;
 import com.br.pokedex.entity.enums.Type;
+import jakarta.persistence.*;
 
 import java.util.List;
 
+@Entity
 public class ArenaEntity
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private Type type;
     private Lider lider;
+    @OneToMany
     private List<PokemonEntity> pokemons;
 
     public ArenaEntity(int id, String name, Type type, Lider lider, List<PokemonEntity> pokemons)
@@ -27,6 +32,10 @@ public class ArenaEntity
         this.type = type;
         this.lider = lider;
         this.pokemons = pokemons;
+    }
+
+    public ArenaEntity() {
+
     }
 
     public int getId() {
